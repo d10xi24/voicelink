@@ -11,6 +11,8 @@
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm
+**/*.prettierignore
+**/*.prettierrc.json
 **/bin
 **/charts
 **/docker-compose*
@@ -21,4 +23,9 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-
+**/ConsoleHowTos
+**/screenshots
+LICENSE
+README.md
+package-lock.json
+CODE_OF_CONDUCT.md
