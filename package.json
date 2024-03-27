@@ -17,7 +17,7 @@
   "author": "dio@1evatine",
   "license": "MIT",
   "engines": {
-    "node": ">18.19.0"
+    "node": ">=18.19.0"
   },
   "dependencies": {
     "@twilio/runtime-handler": "^2.0.1",
@@ -33,7 +33,7 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
-    "eslint": "^7.29.0",
+    "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^27.0.5",
     "prettier": "2.3.1"
