@@ -49,7 +49,6 @@
       console.log("Got a token");
       accessToken = token;
       initializeDevice();
-      log('Client ID:' + identity); 
     } catch (err) {
       console.log(err);
       log("An error occurred.");
@@ -73,6 +72,7 @@
   function addDeviceListeners(device) {
     device.on("registered", function () {
       log("Device Ready to make and receive calls!");
+      log('Client ID:' + identity); 
     });
 
     device.on("error", function (error) {
