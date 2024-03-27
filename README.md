@@ -2,6 +2,12 @@
 
 Voicelink is a lightweight web application built with Node.js and Twilio for making and receiving encrypted voice calls over the internet. With Voicelink, you can communicate securely without compromising your privacy.
 
+  <div style="margin-bottom: 20px;">
+  <p align="center">
+    <img src="/screenshots/202439.png" alt="Homepage Screenshot" height="250" width="450" />
+    </p>
+  </div>
+
 ![GitHub](https://img.shields.io/github/license/d10xi24/voicelink)
 ![GitHub repo size](https://img.shields.io/github/repo-size/d10xi24/voicelink)
 ![GitHub issues](https://img.shields.io/github/issues/d10xi24/voicelink)
@@ -12,15 +18,15 @@ Voicelink is a lightweight web application built with Node.js and Twilio for mak
 ![JavaScript](https://img.shields.io/badge/Language-JavaScript-yellow)
 ![CSS](https://img.shields.io/badge/Styles-CSS-blue)
 ![HTML](https://img.shields.io/badge/Markup-HTML-orange)
-![Node.js](https://img.shields.io/badge/Node.js-v14.17.0-green)
+![Node.js](https://img.shields.io/badge/Node.js-v18.19.0-green)
 
 ### JavaScript Libraries
 
-- ![Twilio](https://img.shields.io/badge/Twilio-v4.0.0-blueviolet): Twilio's JavaScript SDK for voice calling functionality.
-- ![Express](https://img.shields.io/badge/Express-v4.17.1-green): Web framework for Node.js, used for handling HTTP requests and routing.
-- ![Winston](https://img.shields.io/badge/Winston-v3.3.3-yellowgreen): Logging library for Node.js, used for error tracking and debugging.
-- ![jQuery](https://img.shields.io/badge/jQuery-v3.6.0-blue): JavaScript library for DOM manipulation and event handling.
-- ![intlTelInput](https://img.shields.io/badge/intlTelInput-v17.0.12-orange): jQuery plugin for international telephone input.
+- ![Twilio](https://img.shields.io/badge/Twilio-v5.0.1-blueviolet): Twilio's JavaScript SDK for voice calling functionality.
+- ![Express](https://img.shields.io/badge/Express-v4.19.1-green): Web framework for Node.js, used for handling HTTP requests and routing.
+- ![Winston](https://img.shields.io/badge/Winston-v3.13.0-yellowgreen): Logging library for Node.js, used for error tracking and debugging.
+- ![jQuery](https://img.shields.io/badge/jQuery-v3.7.1-blue): JavaScript library for DOM manipulation and event handling.
+- ![intlTelInput](https://img.shields.io/badge/intlTelInput-v20.0.5-orange): jQuery plugin for international telephone input.
 
 
 ### CSS Frameworks
@@ -42,7 +48,7 @@ Voicelink is a lightweight web application built with Node.js and Twilio for mak
 
 ### Requirements
 
-- [Nodejs](https://nodejs.org/) version **14.0** or above.
+- [Nodejs](https://nodejs.org/) version **18.19.0** or above.
 - [ngrok](https://ngrok.com/download) - this will be used to expose your local development server to the internet. For more information, read [this Twilio blog post](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html).
 - A WebRTC enabled browser (Google Chrome or Mozilla Firefox are recommended). Edge and Internet Explorer will not work for testing.
 
@@ -78,10 +84,11 @@ Before we begin local development, we need to collect all the config values we n
 1. Clone the repository: `git clone https://github.com/d10xi24/voicelink.git`
 2. Install dependencies: `npm install`
 
-4. Copy the `twilio.min.js` file from your `node_modules` to your `public` directory. Run the following from the    root directory of your project: 
+4. Copy the `twilio.min.js` file from your `node_modules` to your `public` directory. Run the following from
+   the root directory of your project: 
 
    ```bash
-   cp node_modules/@twilio/voice-sdk/dist/twilio.min.js public
+   cp node_modules/@twilio/voice-sdk/dist/twilio.min.js public/js/
    ```
    **Note:** In order to keep this quickstart as simple as possible, this step is used to avoid any need for build tools like Webpack.
 
@@ -160,12 +167,12 @@ You can also run Voicelink using Docker. Make sure you have Docker installed on 
 
 1. Pull the Docker image:
    ```bash
-   docker pull dion1evatine/voicelink:1.0.0
+   sudo docker pull dion1evatine/voicelink:1.0.0
    ```
 
 2. Run the Docker container:
    ```bash
-   docker run -p 1337:1337 dion1evatine/voicelink:1.0.0
+   sudo docker run -p 1337:1337 dion1evatine/voicelink:1.0.0
    ```
 
 3. Access the application in your web browser: `http://localhost:1337`
@@ -177,11 +184,11 @@ To stop the Docker container, you can use either of the following methods:
 - Alternatively, you can find the container ID or name by running `docker ps` and then stop the container using the `docker stop` command followed by the container ID or name. For example:
   
   ```bash
-  docker ps
+  sudo docker ps
   ```
   Note the Container ID or Name of the voicelink container.
   ```bash
-  docker stop <container_id_or_name>
+  sudo docker stop <container_id_or_name>
   ```
 
 ### Cloud deployment
