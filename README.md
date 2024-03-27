@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# voicelink
-=======
-
 # Voicelink 📞
 
 Voicelink is a lightweight web application built with Node.js and Twilio for making and receiving encrypted voice calls over the internet. With Voicelink, you can communicate securely without compromising your privacy.
@@ -79,4 +75,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Author
 
 [dion@levatine](https://github.com/d10xi24)
->>>>>>> 64622ff (Here Start the commit)
