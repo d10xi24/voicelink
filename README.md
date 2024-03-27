@@ -177,11 +177,9 @@ You can also run Voicelink using Docker. Make sure you have Docker installed on 
 
 3. Access the application in your web browser: `http://localhost:1337`
 
-To stop the Docker container, you can use either of the following methods:
+To stop the Docker container, you can use either the following methods:
 
-- Press `Ctrl + C` in the terminal where the Docker container is running. This will send a termination signal to the container, stopping it gracefully.
-
-- Alternatively, you can find the container ID or name by running `docker ps` and then stop the container using the `docker stop` command followed by the container ID or name. For example:
+- Find the container ID or name by running `sudo docker ps` and then stop the container using the `sudo docker stop` command followed by the container ID or name. For example:
   
   ```bash
   sudo docker ps
