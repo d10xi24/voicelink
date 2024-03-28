@@ -65,6 +65,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/js/twilio.min.js', (req, res) => {
+  res.sendFile('./node_modules/twilio-client/dist/twilio.min.js');
+});
+
 // Set view engine as EJS
 app.set("view engine", "ejs");
 

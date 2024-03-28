@@ -4,9 +4,7 @@
   const phoneInput = document.getElementById("input");
   const statusArea = document.getElementById("status");
   const statusParagraph = document.getElementById("timer");
-  const params = {
-    To: phoneInput.value,
-  };
+ 
 
   let device;
   let accessToken;
@@ -59,17 +57,13 @@
   // Make an outgoing call
   async function makeOutgoingCall() {
     const input = phoneInput.value.trim();
+    const params = {
+      To: input,
+    };
 
     if (!input) {
       statusArea.innerHTML = "Please enter a phone number or client name.";
       return;
-    }
-    params.To = input;
-
-    const selectedCountryData = iti.getSelectedCountryData();
-    if (selectedCountryData && selectedCountryData.dialCode) {
-      // Append country code to the phone number
-      params.To = `+${selectedCountryData.dialCode}${params.To}`;
     }
 
     if (device) {
@@ -78,6 +72,7 @@
       try {
         const call = await device.connect(params);
         updateButtonStates(true);
+        statusArea.innerHTML = `Calling ${params.To}`;
         endCallButton.disabled = false;
 
         call.on("accept", () => updateUIOutgoingCall(call, "accepted"));
@@ -93,8 +88,7 @@
         statusArea.innerHTML = "An error occurred while starting the Call";
       }
     } else {
-      statusArea.innerHTML =
-        "Reload this page: An error occurred while starting the device";
+      statusArea.innerHTML = "An error occurred";
     }
   }
 
@@ -102,7 +96,6 @@
   function updateUIOutgoingCall(call, status) {
     if (status === "accepted") {
       updateButtonStates(true);
-      statusArea.innerHTML = `Calling ${params.To}`;
       startCallTimer(call);
     } else if (status === "disconnected") {
       updateButtonStates(false);
@@ -111,6 +104,7 @@
   }
 
   // Handle incoming calls
+
   function handleIncomingCall(call) {
     console.log(`Incoming call from ${call.parameters.From}`);
     statusArea.innerHTML = `Incoming call from ${call.parameters.From}.`;
@@ -133,6 +127,24 @@
         statusArea.innerHTML = "";
       }
     });
+
+    call.on("cancel", () => {
+      updateUIIncomingCall(call, "accepted");
+    });
+    call.on("disconnect", () => {
+      updateUIIncomingCall(call, "disconnected");
+    });
+    call.on("reject", () => {
+      updateUIIncomingCall(call, "disconnected");
+    });
+  }
+
+  function hangupIncomingCall(call) {
+    call.disconnect();
+    statusArea.innerHTML = "Call rejected";
+    setTimeout(() => {
+      statusArea.innerHTML = "";
+    }, 3000);
   }
 
   // Update UI when handling incoming calls
@@ -147,6 +159,10 @@
       };
     } else if (status === "rejected") {
       statusArea.innerHTML = "Call rejected.";
+    } else if (status === "incoming") {
+      incomingCallHangupButton.onclick = () => {
+        hangupIncomingCall(call);
+      };
     }
   }
 
@@ -158,6 +174,9 @@
       stopCallTimer();
     } else {
       statusArea.innerHTML = "No ongoing call to end.";
+      setTimeout(() => {
+        statusArea.innerHTML = "";
+      },5000);  
     }
   }
 
@@ -216,6 +235,10 @@
 
     if (phoneNumber === "") {
       console.error("Please enter a phone number");
+      statusArea.innerHTML = "Please enter a phone number or a Client ID";
+      setTimeout(() => {
+        statusArea.innerHTML = "";
+      },5000);  
       return;
     }
     let ClientphoneNumber;
@@ -277,7 +300,7 @@
       updateAudioDevices();
     } catch (err) {
       console.log(err);
-      statusArea.innerHTML = "An error occurred.";
+      statusArea.innerHTML = "An error occurred starting the device.";
     }
   }
 
@@ -286,4 +309,6 @@
     const div = document.getElementById("status");
     div.innerHTML = `Your client ID: <strong>${clientName}</strong>`;
   }
+
+
 });

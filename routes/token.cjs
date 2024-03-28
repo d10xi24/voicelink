@@ -34,7 +34,7 @@ exports.voiceResponse = function voiceResponse(requestBody) {
         const attr = isAValidPhoneNumber(toNumberOrClientName) ? "number" : "client";
         dial[attr]({}, toNumberOrClientName);
     } else {
-        twiml.say("Thanks for calling!");
+        twiml.say("Thanks for using Voicelink!");
     }
     return twiml.toString();
 };
