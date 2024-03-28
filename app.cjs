@@ -6,7 +6,7 @@
  *         \\ ' /| \\__.|  || \\__.| \\__. | | | | | | | | | |'\ \
  *          \\_/  '.__.'[__]'.___.''.__.' [___|___|___||__|__|  \_]
  *
- * 
+ *
  * MIT License
  *
  * Copyright (c) 2024 dion@levatine
@@ -30,26 +30,25 @@
  * SOFTWARE.
  */
 
-
-const http = require('http');
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const fs = require('fs');
-const { createLogger, transports, format } = require('winston');
+const http = require("http");
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+const fs = require("fs");
+const { createLogger, transports, format } = require("winston");
 const { combine, timestamp, label, printf } = format;
 
 // Load environment variables from the .env file
-require('dotenv').config();
+require("dotenv").config();
 
 // Import router module for routing
-const router = require('./routes/router.cjs');
+const router = require("./routes/router.cjs");
 
 // Create an Express application
 const app = express();
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Parse request bodies as JSON
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -60,22 +59,22 @@ app.use(router);
 
 // Set content type as 'application/javascript' for JavaScript files
 app.use((req, res, next) => {
-  if (req.url.endsWith('.js')) {
-    res.setHeader('Content-Type', 'application/javascript');
+  if (req.url.endsWith(".js")) {
+    res.setHeader("Content-Type", "application/javascript");
   }
   next();
 });
 
 // Set view engine as EJS
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 // Render the index page for the root URL
-app.get('/', (req, res) => {
-  res.render('index');
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
 // Create a directory for logs if it doesn't exist
-const logDirectory = path.join(__dirname, 'logs');
+const logDirectory = path.join(__dirname, "logs");
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory);
 }
@@ -87,27 +86,28 @@ const logFormat = printf(({ level, message, label, timestamp }) => {
 
 // Create a logger instance
 const logger = createLogger({
-  format: combine(
-    label({ label: 'server' }),
-    timestamp(),
-    logFormat,
-  ),
+  format: combine(label({ label: "server" }), timestamp(), logFormat),
   transports: [
     // Log errors to a file
-    new transports.File({ filename: path.join(logDirectory, 'error.log'), level: 'error' }),
+    new transports.File({
+      filename: path.join(logDirectory, "error.log"),
+      level: "error",
+    }),
     // Log debug messages to a file
-    new transports.File({ filename: path.join(logDirectory, 'debug.log'), level: 'debug' }),
+    new transports.File({
+      filename: path.join(logDirectory, "debug.log"),
+      level: "debug",
+    }),
   ],
 });
 
 // Log errors to console in non-production environments
-if (process.env.NODE_ENV !== 'prod') {
-  logger.add(new transports.Console({
-    format: format.combine(
-      format.colorize(),
-      logFormat,
-    ),
-  }));
+if (process.env.NODE_ENV !== "prod") {
+  logger.add(
+    new transports.Console({
+      format: format.combine(format.colorize(), logFormat),
+    })
+  );
 }
 
 // Create an HTTP server with the Express app

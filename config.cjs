@@ -7,7 +7,7 @@ const config = {
   twimlAppSid: process.env.TWILIO_TWIML_APP_SID,
   callerId: process.env.TWILIO_CALLER_ID,
   apiKey: process.env.TWILIO_API_KEY,
-  apiSecret: process.env.TWILIO_API_SECRET
+  apiSecret: process.env.TWILIO_API_SECRET,
 };
 
 module.exports = config;

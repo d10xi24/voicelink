@@ -5,7 +5,7 @@
   const statusArea = document.getElementById("status");
   const statusParagraph = document.getElementById("timer");
   const params = {
-    To: phoneInput.value
+    To: phoneInput.value,
   };
 
   let device;
@@ -22,12 +22,13 @@
       return;
     }
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
       .then(function (stream) {
-        console.log('Microphone and speaker access granted.');
+        console.log("Microphone and speaker access granted.");
       })
       .catch(function (err) {
-        console.error('Error accessing microphone and speaker:', err);
+        console.error("Error accessing microphone and speaker:", err);
       });
   }
 
@@ -38,7 +39,7 @@
       startTime = new Date().getTime();
       callTimerInterval = setInterval(updateCallDuration, 1000);
     } else if (status === "disconnected") {
-      console.log('Call is not in connected state. Timer will not start.');
+      console.log("Call is not in connected state. Timer will not start.");
     }
   }
 
@@ -48,7 +49,9 @@
     const elapsedTime = currentTime - startTime;
     const seconds = Math.floor(elapsedTime / 1000);
 
-    const formattedTime = new Date(seconds * 1000).toISOString().substring(11, 19);
+    const formattedTime = new Date(seconds * 1000)
+      .toISOString()
+      .substring(11, 19);
 
     statusParagraph.innerHTML = `<h4>${formattedTime}</h4>`;
   }
@@ -90,7 +93,8 @@
         statusArea.innerHTML = "An error occurred while starting the Call";
       }
     } else {
-      statusArea.innerHTML = "Reload this page: An error occurred while starting the device";
+      statusArea.innerHTML =
+        "Reload this page: An error occurred while starting the device";
     }
   }
 
@@ -187,19 +191,19 @@
     startupClient();
   });
 
-  phoneInput.value = '';
+  phoneInput.value = "";
 
   const iti = window.intlTelInput(phoneInput, {
     initialCountry: "auto",
     separateDialCode: true,
-    utilsScript: "/utils.js"
+    utilsScript: "/utils.js",
   });
 
   iti.promise.then(function () {
     phoneInput.addEventListener("countrychange", function () {
       var selectedCountry = iti.getSelectedCountryData();
       var countryCode = selectedCountry.dialCode;
-      phoneInput.value = '+' + countryCode;
+      phoneInput.value = "+" + countryCode;
     });
   });
 
@@ -207,22 +211,21 @@
     e.preventDefault();
 
     const selectedCountry = iti.getSelectedCountryData();
-    const dialCode = selectedCountry ? selectedCountry.dialCode : '';
+    const dialCode = selectedCountry ? selectedCountry.dialCode : "";
     const phoneNumber = phoneInput.value.trim();
 
-    if (phoneNumber === '') {
-      console.error('Please enter a phone number');
+    if (phoneNumber === "") {
+      console.error("Please enter a phone number");
       return;
     }
     let ClientphoneNumber;
     if (selectedCountry) {
-      ClientphoneNumber = '+' + dialCode + phoneNumber;
+      ClientphoneNumber = "+" + dialCode + phoneNumber;
     } else {
       ClientphoneNumber = phoneNumber;
     }
     makeOutgoingCall(iti, ClientphoneNumber);
   });
-
 
   // Event listener for the end call button click
   endCallButton.addEventListener("click", endCall);
@@ -233,7 +236,7 @@
       setClientNameUI(identity);
     });
     setTimeout(() => {
-      statusArea.innerHTML = '';
+      statusArea.innerHTML = "";
     }, 25000);
 
     device.on("error", function (error) {
@@ -269,8 +272,8 @@
       identity = clientName;
       initializeDevice();
       setClientNameUI(identity);
-      console.log('Your client ID:' + identity);
-      
+      console.log("Your client ID:" + identity);
+
       updateAudioDevices();
     } catch (err) {
       console.log(err);
@@ -280,8 +283,7 @@
 
   // Function to set client name in UI
   function setClientNameUI(clientName) {
-    const div = document.getElementById('status');
+    const div = document.getElementById("status");
     div.innerHTML = `Your client ID: <strong>${clientName}</strong>`;
   }
-
 });

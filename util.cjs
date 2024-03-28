@@ -1,5 +1,21 @@
-const ADJECTIVES=["Cryptic","Phantom","Shadow","Zero-Day","Stealth","Ghost","Ninja","Dark","Spectre","Matrix","Cyber","Silent","Rogue","Digital","Blackhat","Grey","Anonymous","Encrypt","Binary","Kernel","Proxy","Firewall","Viral","Cypher","Blade",];const FIRST_NAMES=["ZeroCool","AcidBurn","CrashOverride","PhantomPhreak","CerealKiller","LordNikon","ThePlague","TheMorpheus","Neo","Trinity","Cipher","Bit","Byte","Hackerman","Cyberspace","Malware","Virus","Trojan","Ransom","Keylogger","Payload","Rootkit","Worm","Exploit","Sniffer",];const LAST_NAMES=["Zero","Wraith","Byte","Crash","Cypher","Null","Stealth","Phreak","Matrix","Hacker","Decrypt","Pirate","Intruder","Code","Dark","Shadow","Ghost","Specter","Crypt","Vortex","Ninja","Kernel","Proxy","Silent","Cipher",];const rand=(arr)=>arr[Math.floor(Math.random()*arr.length)];module.exports=()=>rand(ADJECTIVES)+rand(FIRST_NAMES)+rand(LAST_NAMES)
+const randChar = () => {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  return chars.charAt(Math.floor(Math.random() * chars.length));
+};
 
-// This script generates a random 10-character string consisting of uppercase letters, lowercase letters, and digits. 
+const generateRandomString = () => {
+  let randomString = "";
+  for (let i = 0; i < 10; i++) {
+    randomString += randChar();
+  }
+  return randomString;
+};
+
+module.exports = generateRandomString;
+
+// This script generates a random 10-character string consisting of
+// uppercase letters, lowercase letters, and digits.
 // It is intended to be used for generating random names or identifiers in applications.
-// Note: This file is not meant to be edited.
+
+// Note: This file is not meant to be edited .
