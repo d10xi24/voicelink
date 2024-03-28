@@ -1,35 +1,76 @@
-
-    <div class="dialpad">
-        <div class="dialpad_image"></div>
-        <input type="tel" id="input">
-        <div id="status-area">
-            <p id="status"></p>
-        </div>
-        <div id="digits-container">
-        <div class="row">
-            <div class="digit" id="one">1</div>
-            <div class="digit">2<div class="sub">ABC</div></div>
-            <div class="digit">3<div class="sub">DEF</div></div>
-        </div>
-        <div class="row">
-            <div class="digit">4<div class="sub">GHI</div></div>
-            <div class="digit">5<div class="sub">JKL</div></div>
-            <div class="digit">6<div class="sub">MNO</div></div>
-        </div>
-        <div class="row">
-            <div class="digit">7<div class="sub">PQRS</div></div>
-            <div class="digit">8<div class="sub">TUV</div></div>
-            <div class="digit">9<div class="sub">WXYZ</div></div>
-        </div>
-        <div class="row">
-            <div class="digit">*</div>
-            <div class="digit">0</div>
-            <div class="digit">#</div>
-        </div>
-        </div>
-        <div id="button-container">
-            <button id="get-devices" style="display: none;" aria-hidden="true"></button>
-        <div id="call"><i class="fa fa-phone" aria-hidden="true"></i></div>
-        <div id="end-call"><i class="fa fa-phone-slash" aria-hidden="true"></i></div>
-        </div>
+<div class="dialpad">
+  <img
+      src="img/phone.png"
+      alt="iphone_image"
+      class="dialpad_img"
+    />
+  <input type="tel" id="input" />
+  <div id="status-area">
+    <h4 id="timer"></h4>
+    <p id="status"></p>
+  </div>
+  <div id="digits-container">
+    <div class="row">
+      <div class="digit" id="one">1</div>
+      <div class="digit">
+        2
+        <div class="sub">ABC</div>
+      </div>
+      <div class="digit">
+        3
+        <div class="sub">DEF</div>
+      </div>
     </div>
+    <div class="row">
+      <div class="digit">
+        4
+        <div class="sub">GHI</div>
+      </div>
+      <div class="digit">
+        5
+        <div class="sub">JKL</div>
+      </div>
+      <div class="digit">
+        6
+        <div class="sub">MNO</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="digit">
+        7
+        <div class="sub">PQRS</div>
+      </div>
+      <div class="digit">
+        8
+        <div class="sub">TUV</div>
+      </div>
+      <div class="digit">
+        9
+        <div class="sub">WXYZ</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="digit">*</div>
+      <div class="digit">0</div>
+      <div class="digit">#</div>
+    </div>
+  </div>
+  <div id="button-container">
+    <div id="call"><i class="fa fa-phone" aria-hidden="true"></i></div>
+    <div id="end-call">
+      <i class="fa fa-phone-slash" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function () {
+    $(document).ready(function () {
+      $(".digit").on("click", function () {
+        var number = $(this).text().trim();
+        var primaryDigit = number.charAt(0);
+        $("#input").val($("#input").val() + primaryDigit);
+      });
+    });
+  });
+</script>
