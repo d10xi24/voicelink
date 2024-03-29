@@ -1,66 +1,75 @@
-<div class="dialpad">
-  <img
-      src="img/phone.png"
-      alt="iphone_image"
-      class="dialpad_img"
-    />
-  <input type="tel" id="input" />
-  <div id="status-area">
-    <h4 id="timer"></h4>
-    <p id="status"></p>
-  </div>
-  <div id="digits-container">
-    <div class="row">
-      <div class="digit" id="one">1</div>
-      <div class="digit">
-        2
-        <div class="sub">ABC</div>
+<div class="container">
+  <div class="dialpad">
+    <img src="img/phone.png" alt="iphone_image" class="dialpad_img" />
+    <input type="tel" id="input" />
+    <div id="status-area">
+      <h4 id="timer"></h4>
+      <p id="status"></p>
+    </div>
+    <div id="digits-container">
+      <div class="row">
+        <div class="digit" id="one">1</div>
+        <div class="digit">
+          2
+          <div class="sub">ABC</div>
+        </div>
+        <div class="digit">
+          3
+          <div class="sub">DEF</div>
+        </div>
       </div>
-      <div class="digit">
-        3
-        <div class="sub">DEF</div>
+      <div class="row">
+        <div class="digit">
+          4
+          <div class="sub">GHI</div>
+        </div>
+        <div class="digit">
+          5
+          <div class="sub">JKL</div>
+        </div>
+        <div class="digit">
+          6
+          <div class="sub">MNO</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="digit">
+          7
+          <div class="sub">PQRS</div>
+        </div>
+        <div class="digit">
+          8
+          <div class="sub">TUV</div>
+        </div>
+        <div class="digit">
+          9
+          <div class="sub">WXYZ</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="digit">*</div>
+        <div class="digit">0</div>
+        <div class="digit">#</div>
       </div>
     </div>
-    <div class="row">
-      <div class="digit">
-        4
-        <div class="sub">GHI</div>
+    <div id="button-container">
+      <div id="call">
+        <i class="fa fa-phone"></i></div>
+      <div id="end-call">
+        <i class="fa fa-phone-slash"></i>
       </div>
-      <div class="digit">
-        5
-        <div class="sub">JKL</div>
-      </div>
-      <div class="digit">
-        6
-        <div class="sub">MNO</div>
-      </div>
+      <!--<button id="muteButton"><i class="fas fa-volume-up"></i></button>-->
     </div>
-    <div class="row">
-      <div class="digit">
-        7
-        <div class="sub">PQRS</div>
-      </div>
-      <div class="digit">
-        8
-        <div class="sub">TUV</div>
-      </div>
-      <div class="digit">
-        9
-        <div class="sub">WXYZ</div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="digit">*</div>
-      <div class="digit">0</div>
-      <div class="digit">#</div>
-    </div>
-  </div>
-  <div id="button-container">
-    <div id="call"><i class="fa fa-phone" aria-hidden="true"></i></div>
-    <div id="end-call">
-      <i class="fa fa-phone-slash" aria-hidden="true"></i>
-    </div>
-  </div>
 
-
+    <div class="container">
+      <div class="audio_container">
+        <div class="levels" id="levels">
+          <div class="level" id="input-volume"></div>
+          <div class="level" id="output-volume"></div>
+        </div>
+        <button id="get-devices"><i class="fas fa-question-circle"></i></button>
+      </div>
+    </div>
+  </div>
 </div>
+

@@ -1,11 +1,4 @@
 ﻿$(function () {
-  const callButton = document.getElementById("call");
-  const endCallButton = document.getElementById("end-call");
-  const phoneInput = document.getElementById("input");
-  const statusArea = document.getElementById("status");
-  const statusParagraph = document.getElementById("timer");
- 
-
   let device;
   let accessToken;
   let startTime;
@@ -14,44 +7,125 @@
   let endCallButtonEnabled = false;
   let identity;
 
+  const callButton = document.getElementById("call");
+  const endCallButton = document.getElementById("end-call");
+  const phoneInput = document.getElementById("input");
+  const statusArea = document.getElementById("status");
+  const statusParagraph = document.getElementById("timer");
+  const getAudioDevicesButton = document.getElementById("get-devices");
+  const inputVolumeBar = document.getElementById("input-volume");
+  const outputVolumeBar = document.getElementById("output-volume");
+  const iti = window.intlTelInput(phoneInput, {
+    initialCountry: "auto",
+    separateDialCode: true,
+    utilsScript: "/utils.js",
+  });
+
+  callButton.addEventListener("click", makeOutgoingCall, handleIncomingCall);
+  endCallButton.addEventListener("click", endCall);
+  getAudioDevicesButton.onclick = getAudioDevices;
+  
+  $(document).ready(function() {
+    startupClient();
+  });
+
+  callButton.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const selectedCountry = iti.getSelectedCountryData();
+    const dialCode = selectedCountry ? selectedCountry.dialCode : "";
+    const phoneNumber = phoneInput.value.trim();
+
+    if (phoneNumber === "") {
+      console.error("Please enter a phone number");
+      statusArea.innerHTML = "Please enter a phone number or a Client ID";
+      setTimeout(() => {
+        statusArea.innerHTML = "";
+      }, 5000);
+      return;
+    }
+    let ClientphoneNumber;
+    if (selectedCountry) {
+      ClientphoneNumber = "+" + dialCode + phoneNumber;
+    } else {
+      ClientphoneNumber = phoneNumber;
+    }
+    makeOutgoingCall(iti, ClientphoneNumber);
+  });
+ 
+
+  // Function to retrieve access token and initialize the Twilio Device
+  async function startupClient() {
+    statusArea.innerHTML = "Requesting Access Token...";
+
+    try {
+      const { token, identity: clientName } = await $.getJSON("/token");
+      console.log("Got a token");
+      accessToken = token;
+      identity = clientName;
+      initializeDevice();
+      setClientNameUI(identity);
+      console.log("Your client ID:" + identity);
+
+      updateAudioDevices();
+    } catch (err) {
+      console.log(err);
+      statusArea.innerHTML = "An error occurred starting the device.";
+    }
+  }
+
+  // Function to initialize the Twilio Device
+  function initializeDevice() {
+    statusArea.innerHTML = "Starting the device";
+    device = new Twilio.Device(accessToken, {
+      logLevel: 1,
+      codecPreferences: ["opus", "pcmu"],
+    });
+
+    addDeviceListeners(device);
+
+    device.register();
+  }
+
+  // Function to add device listeners for Twilio Device
+  function addDeviceListeners(device) {
+    device.on("registered", function () {
+      setClientNameUI(identity);
+    });
+    setTimeout(() => {
+      statusArea.innerHTML = "";
+    }, 25000);
+
+    device.on("error", function (error) {
+      console.log("Device Error: " + error.message);
+    });
+
+    device.on("incoming", handleIncomingCall);
+
+    device.audio.on("deviceChange", updateAudioDevices.bind(device));
+  }
+
+  // Update the available ringtone and speaker devices
+
   function updateAudioDevices() {
     if (!device || !device.audio) {
       console.error("Device or audio not supported.");
       return;
-    }
-
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(function (stream) {
-        console.log("Microphone and speaker access granted.");
-      })
-      .catch(function (err) {
-        console.error("Error accessing microphone and speaker:", err);
-      });
-  }
-
-  // Function to start the call timer
-  async function startCallTimer(call, status) {
-    if (status === "accepted") {
-      ongoingCall = true;
-      startTime = new Date().getTime();
-      callTimerInterval = setInterval(updateCallDuration, 1000);
-    } else if (status === "disconnected") {
-      console.log("Call is not in connected state. Timer will not start.");
+    } else {
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then(function (_stream) {
+          console.log("Microphone and speaker access granted.");
+        })
+        .catch(function (err) {
+          console.error("Error accessing microphone and speaker:", err);
+        });
     }
   }
 
-  // Function to update the UI with call duration
-  function updateCallDuration() {
-    const currentTime = new Date().getTime();
-    const elapsedTime = currentTime - startTime;
-    const seconds = Math.floor(elapsedTime / 1000);
-
-    const formattedTime = new Date(seconds * 1000)
-      .toISOString()
-      .substring(11, 19);
-
-    statusParagraph.innerHTML = `<h4>${formattedTime}</h4>`;
+  async function getAudioDevices() {
+    await navigator.mediaDevices.getUserMedia({ audio: true });
+    updateAudioDevices.bind(device);
   }
 
   // Make an outgoing call
@@ -96,6 +170,7 @@
   function updateUIOutgoingCall(call, status) {
     if (status === "accepted") {
       updateButtonStates(true);
+      bindVolumeIndicators(call);
       startCallTimer(call);
     } else if (status === "disconnected") {
       updateButtonStates(false);
@@ -176,7 +251,7 @@
       statusArea.innerHTML = "No ongoing call to end.";
       setTimeout(() => {
         statusArea.innerHTML = "";
-      },5000);  
+      }, 5000);
     }
   }
 
@@ -204,20 +279,8 @@
     }
   }
 
-  // Initialize the script when the document is loaded
-  window.addEventListener("load", function () {
-    // Retrieve the access token and initialize the Twilio Device
-    startupClient();
-  });
-
   phoneInput.value = "";
-
-  const iti = window.intlTelInput(phoneInput, {
-    initialCountry: "auto",
-    separateDialCode: true,
-    utilsScript: "/utils.js",
-  });
-
+  
   iti.promise.then(function () {
     phoneInput.addEventListener("countrychange", function () {
       var selectedCountry = iti.getSelectedCountryData();
@@ -226,89 +289,69 @@
     });
   });
 
-  callButton.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    const selectedCountry = iti.getSelectedCountryData();
-    const dialCode = selectedCountry ? selectedCountry.dialCode : "";
-    const phoneNumber = phoneInput.value.trim();
-
-    if (phoneNumber === "") {
-      console.error("Please enter a phone number");
-      statusArea.innerHTML = "Please enter a phone number or a Client ID";
-      setTimeout(() => {
-        statusArea.innerHTML = "";
-      },5000);  
-      return;
-    }
-    let ClientphoneNumber;
-    if (selectedCountry) {
-      ClientphoneNumber = "+" + dialCode + phoneNumber;
-    } else {
-      ClientphoneNumber = phoneNumber;
-    }
-    makeOutgoingCall(iti, ClientphoneNumber);
-  });
-
-  // Event listener for the end call button click
-  endCallButton.addEventListener("click", endCall);
-
-  // Function to add device listeners for Twilio Device
-  function addDeviceListeners(device) {
-    device.on("registered", function () {
-      setClientNameUI(identity);
-    });
-    setTimeout(() => {
-      statusArea.innerHTML = "";
-    }, 25000);
-
-    device.on("error", function (error) {
-      console.log("Device Error: " + error.message);
-    });
-
-    device.on("incoming", handleIncomingCall);
-
-    device.audio.on("deviceChange", updateAudioDevices.bind(device));
-  }
-
-  // Function to initialize the Twilio Device
-  function initializeDevice() {
-    statusArea.innerHTML = "Starting the device";
-    device = new Twilio.Device(accessToken, {
-      logLevel: 1,
-      codecPreferences: ["opus", "pcmu"],
-    });
-
-    addDeviceListeners(device);
-
-    device.register();
-  }
-
-  // Function to retrieve access token and initialize the Twilio Device
-  async function startupClient() {
-    statusArea.innerHTML = "Requesting Access Token...";
-
-    try {
-      const { token, identity: clientName } = await $.getJSON("/token");
-      console.log("Got a token");
-      accessToken = token;
-      identity = clientName;
-      initializeDevice();
-      setClientNameUI(identity);
-      console.log("Your client ID:" + identity);
-
-      updateAudioDevices();
-    } catch (err) {
-      console.log(err);
-      statusArea.innerHTML = "An error occurred starting the device.";
-    }
-  }
-
   // Function to set client name in UI
   function setClientNameUI(clientName) {
     const div = document.getElementById("status");
     div.innerHTML = `Your client ID: <strong>${clientName}</strong>`;
   }
 
+  function bindVolumeIndicators(call) {
+    // Function to update volume levels without animation
+    function updateVolumeLevels(inputVolume, outputVolume) {
+      var inputColor = "red";
+      if (inputVolume < 0.5) {
+        inputColor = "green";
+      } else if (inputVolume < 0.75) {
+        inputColor = "yellow";
+      }
 
+      inputVolumeBar.style.height = Math.floor(inputVolume * 100) + "%";
+      inputVolumeBar.style.background = inputColor;
+
+      var outputColor = "red";
+      if (outputVolume < 0.5) {
+        outputColor = "green";
+      } else if (outputVolume < 0.75) {
+        outputColor = "yellow";
+      }
+
+      outputVolumeBar.style.height = Math.floor(outputVolume * 100) + "%";
+      outputVolumeBar.style.background = outputColor;
+    }
+
+    call.on("volume", function (inputVolume, outputVolume) {
+      inputVolumeBar.classList.add("level");
+      outputVolumeBar.classList.add("level");
+
+      // Update volume levels without animation
+      updateVolumeLevels(inputVolume, outputVolume);
+    });
+  }
+
+  // Function to start the call timer
+  async function startCallTimer(call, status) {
+    if (status === "accepted") {
+      ongoingCall = true;
+      startTime = new Date().getTime();
+      callTimerInterval = setInterval(updateCallDuration, 1000);
+    } else if (status === "disconnected") {
+      console.log("Call is not in connected state. Timer will not start.");
+    }
+  }
+
+  // Function to update the UI with call duration
+  function updateCallDuration() {
+    const currentTime = new Date().getTime();
+    const elapsedTime = currentTime - startTime;
+    const seconds = Math.floor(elapsedTime / 1000);
+
+    const formattedTime = new Date(seconds * 1000)
+      .toISOString()
+      .substring(11, 19);
+
+    statusParagraph.innerHTML = `<h4>${formattedTime}</h4>`;
+  }
+
+ 
+  
 });
