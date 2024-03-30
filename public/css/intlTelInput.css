@@ -75,7 +75,7 @@
 }
 .iti--inline-dropdown .iti__dropdown-content {
   position: absolute;
-  z-index: 2;
+  z-index: 7;
   margin-top: 0px;
   margin-left: 20px;
   border: 1px solid #ccc;
