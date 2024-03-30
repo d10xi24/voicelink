@@ -18,6 +18,7 @@
   overflow: hidden;
   position: absolute;
 }
+
 .iti input.iti__tel-input,
 .iti input.iti__tel-input[type=text],
 .iti input.iti__tel-input[type=tel] {
@@ -68,8 +69,9 @@
   border-bottom: 4px solid #000000;
 }
 .iti__dropdown-content {
-  left: -20px;
-  bottom: -230px;
+  left: -23px;
+  width: 210px !important; 
+  bottom: -240px;
   border-radius: 3px;
   background-color: white;
 }

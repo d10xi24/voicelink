@@ -5,26 +5,104 @@
 }
 
 :root {
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  color: #222;
 }
 
 body {
-  background: rgba( 120, 191, 44, 0.25 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 4px );
-  -webkit-backdrop-filter: blur( 4px );
+  background-image: linear-gradient(96deg, 
+  rgba(29, 10, 240, 0.596), 
+  rgba(218, 15, 237, 0.37)84%);
+  background-size: 100% 100%; 
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(17.5px);
+  -webkit-backdrop-filter: blur(17.5px);
   font-family: "Courier New", Courier, monospace;
-  width: 100vw;
   overflow-x: hidden;
 }
 
+/* Header styles */
 .header {
   padding: 10px;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header-logo {
   margin-left: -5.5rem;
 }
+
+.menu-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+  width: 300px;
+  height: 100%;
+  padding: 40px;
+  background-color: #222;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  transition: all 0.5s cubic-bezier(0.7,0,0.3,1);
+  transform: translate3d(-360px,0,0);
+}
+.menu-wrap.active {
+  transform: translate3d(0px,0,0);
+}
+
+.menu-wrap .menu .icon-list a {
+  position: relative;
+  font-family: "Oswald", "Helvetica Neue", Helvetica, sans-serif;
+  display: block;
+  padding: 20px;
+  text-decoration: none;
+  color: #eee;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+.menu-wrap .menu .icon-list a::before {
+  position: absolute;
+  content: "";
+  width: 0%;
+  height: 2px;
+  top: 80%;
+  transition: all 0.3s ease;
+}
+.menu-wrap .menu .icon-list a:hover {
+  color: #CDDC39;
+}
+.menu-wrap .menu .icon-list a:hover::before {
+  width: 50%;
+  background-color: #CDDC39;
+}
+
+/* Buttons */
+.menu-button, 
+.close-button {
+  position: fixed;
+  top: 90px;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.menu-button {
+  left: 0px;
+  z-index: 102;
+}
+.close-button {
+  right: -50px;
+  z-index: 100;
+}
+
 
 main {
   display: flex;
@@ -303,7 +381,6 @@ main {
 
 .footer {
   text-align: center;
-  color: rgb(247, 245, 245);
 }
 
 #footer-text {
@@ -329,7 +406,7 @@ main {
 
 @media screen and (max-width: 768px) {
   html {
-    font-size: 70%;
+    font-size: 80%;
   }
 
   body {
@@ -342,6 +419,15 @@ main {
     flex-direction: column;
     align-items: center;
   }
+  
+  header {
+    width: 100%;
+    text-align: center;
+  }
+
+  .header-logo {
+    margin-left: -2.5rem;
+  }
 
   .about {
     margin-left: 0px;
@@ -351,45 +437,39 @@ main {
   }
 
   .dialpad {
-    margin-top: 20px; 
+    margin-top: 0; 
     width: auto;
     height: auto; 
+    margin-right: 3rem;
   }
   
+ 
   .dialpad_img{
-    width: 400px; 
+    width: 428px; 
   }
 
   #status-area {
-    left: 9rem;
+    left: 7.2rem;
     top: 8.8rem;
-    width: 46%;
+    width: 50%;
   }
     
   #input {
-    padding-bottom: 10px;
-    padding-left: 20px;
-    top: 50px;
+    padding-bottom: 1px;
+    padding-left: 19px;
+    top: 53px;
+    width: 54%;
   }
   
   .levels {
     height: 250px;
     width: 20%;
     margin-top: -350px;
-    margin-left: 25rem;
+    margin-left: 22rem;
   }
   
   #get-devices {
-    margin-left: 303px;
-  }
-
-  header {
-    width: 100%;
-    text-align: center;
-  }
-  
-  .header-logo{
-    margin-right: 10rem;
+    margin-left: 306px;
   }
 
   #footer-text {
@@ -398,11 +478,36 @@ main {
   }
 
   .footer-logo {
-    margin-top: -22px;
+    margin-top: -16px;
     left: 0.5rem;
   }
 
   .social-icons {
     margin-right: -7rem;
   }
+
+  .iti__flag-container {
+    top: 4.2rem;
+    width: 35px;
+    height: 35px;
+    margin-left: 3.2rem;
+  }
+
+  .iti__dropdown-content {
+    width: 170px !important; 
+    height: 260px;
+    margin-top: 39rem;
+    margin-left: 3.9rem;
+  }
+  .menu-wrap {
+    right: 0;
+    transform: translate3d(360px,0,0);
+  }
+  .menu-button {
+    right: 0px;
+  }
+  .close-button {
+    left: -50px;
+  }
+  
 }
