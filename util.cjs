@@ -1,14 +1,19 @@
-const randChar = () => {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  return chars.charAt(Math.floor(Math.random() * chars.length));
-};
-
 const generateRandomString = () => {
-  let randomString = "";
-  for (let i = 0; i < 10; i++) {
-    randomString += randChar();
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+
+  let randomString = "VL-";
+
+  // Generate 4 random letters
+  for (let i = 0; i < 4; i++) {
+    randomString += chars.charAt(Math.floor(Math.random() * chars.length));
   }
+
+  // Generate 4 random numbers
+  for (let i = 0; i < 4; i++) {
+    randomString += numbers.charAt(Math.floor(Math.random() * numbers.length));
+  }
+
   return randomString;
 };
 

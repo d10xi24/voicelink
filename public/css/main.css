@@ -13,8 +13,8 @@
 
 body {
   background-image: linear-gradient(96deg, 
-  rgba(29, 10, 240, 0.596), 
-  rgba(218, 15, 237, 0.37)84%);
+  rgba(219, 73, 233, 0.37),
+  rgba(29, 10, 240, 0.596) 84%);
   background-size: 100% 100%; 
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(17.5px);
@@ -86,7 +86,7 @@ body {
   top: 90px;
   width: 50px;
   height: 50px;
-  background-color: #fff;
+  background-color:  rgba(97, 57, 207, 0.37);
   font-size: 20px;
   border: none;
   outline: none;
@@ -118,8 +118,11 @@ main {
   margin-top: 1rem;
   margin-left: -4rem;
   color: black;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+}
+
+dt {
+	font-weight: bold;
 }
 
 .email-link {
@@ -140,30 +143,27 @@ main {
   font-size: 1.3rem;
 }
 
-#status-area {
+.updateUI {
   position: absolute;
   padding-top: 2px;
-  left: 1.5rem;
+  left: 1.9rem;
   top: 7.8rem;
-  width: 85%;
+  width: 80%;
   height: 50px;
   overflow: hidden;
   white-space: nowrap;
-  background: #2e2e30(49, 46, 46, 0.945);
+  background: transparent;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
-#status-area p {
+.updateUI p {
+  position: relative; 
+  top: 15px; 
   font-size: 0.8rem;
-  color: #06f170;
+  color: #cbf7fa;
   -moz-animation: marquee 10s linear infinite;
   -webkit-animation: marquee 10s linear infinite;
   animation: marquee 10s linear infinite;
-}
-
-#status-area h4 {
-  font-size: 0.8rem;
-  color: #06f170;
 }
 
 @-moz-keyframes marquee {
@@ -325,7 +325,6 @@ main {
   background-repeat: no-repeat;
   background-image:linear-gradient(to top, green 0%, yellow 80%, red 100%);
   background-size: 100% 100%;
-
 }
 
 /* paint gap lines of LEDs */
@@ -448,7 +447,7 @@ main {
     width: 428px; 
   }
 
-  #status-area {
+  .updateUI {
     left: 7.2rem;
     top: 8.8rem;
     width: 50%;
