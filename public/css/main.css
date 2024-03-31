@@ -23,7 +23,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Header styles */
 .header {
   padding: 10px;
   top: 0;
@@ -103,7 +102,6 @@ body {
   z-index: 100;
 }
 
-
 main {
   display: flex;
   justify-content: row;
@@ -164,6 +162,10 @@ dt {
   -moz-animation: marquee 10s linear infinite;
   -webkit-animation: marquee 10s linear infinite;
   animation: marquee 10s linear infinite;
+}
+
+.updateUI h4 {
+  color: #cbf7fa;
 }
 
 @-moz-keyframes marquee {

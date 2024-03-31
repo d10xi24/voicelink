@@ -4,11 +4,12 @@
   let identity;
   let ongoingCall = false;
   let endCallButtonEnabled = false;
-  
+
   const callButton = document.getElementById("call");
   const endCallButton = document.getElementById("end-call");
   const phoneInput = document.getElementById("input");
   const status = document.getElementById("status");
+  const Callduration = document.getElementById("timer");
   const updateAudioDevicesButton = document.getElementById("get-devices");
 
   const iti = window.intlTelInput(phoneInput, {
@@ -50,7 +51,7 @@
         });
     }
   }
-  
+
   // Make an outgoing call
   async function makeOutgoingCall() {
     var params = {
@@ -69,6 +70,7 @@
 
         endCallButton.onclick = () => {
           call.disconnect();
+          stopCallTimer();
         };
       } catch (error) {
         console.log("Error making outgoing call: " + error.message);
@@ -78,12 +80,41 @@
     }
   }
 
+  // Function to start the call timer
+  async function startCallTimer(call) {
+      ongoingCall = true;
+      startTime = new Date().getTime();
+      callTimerInterval = setInterval(updateCallDuration, 1000);
+  }
+
+  // Function to update the UI with call duration
+  function updateCallDuration() {
+    const currentTime = new Date().getTime();
+    const elapsedTime = currentTime - startTime;
+    const seconds = Math.floor(elapsedTime / 1000);
+
+    const formattedTime = new Date(seconds * 1000)
+      .toISOString()
+      .substring(11, 19);
+
+      Callduration.innerHTML = `<h4>${formattedTime}</h4>`;
+  }
+  // Function to stop the call timer
+  function stopCallTimer() {
+    clearInterval(callTimerInterval);
+    const callDuration = Callduration.innerHTML;
+    Callduration.innerHTML = callDuration;
+    setTimeout(() => {
+      Callduration.innerHTML = "";
+    }, 5000);
+  }
+
   // Update UI when handling outgoing calls
   function updateUIAcceptedOutgoingCall(call) {
     status.innerHTML = "Call in progress...";
     setTimeout(() => {
-      statusArea.innerHTML = "";
     }, 3000);
+    startCallTimer(call);
     callButton.disabled = true;
     bindVolumeIndicators(call);
   }
@@ -125,6 +156,7 @@
       updateButtonStates(true);
       endCallButton.disabled = false;
       bindVolumeIndicators(true);
+      startCallTimer();
       endCallButton.onclick = () => {
         call.disconnect();
       };
@@ -149,6 +181,7 @@
   // End an ongoing call
   function endCall() {
     if (ongoingCall) {
+      stopCallTimer();
       updateButtonStates(false);
       endCallButton.disabled = true;
     } else {
@@ -156,7 +189,6 @@
     }
   }
 
- 
   // Enable or disable the call button and end call button based on ongoing call status
   function updateButtonStates(callOngoing) {
     if (callOngoing) {
@@ -209,7 +241,8 @@
     device
       .register()
       .then(() => {
-        status.innerHTML = "Device connected and Ready to make and receive calls";
+        status.innerHTML =
+          "Device connected and Ready to make and receive calls";
       })
       .catch(() => {
         status.innerHTML =
@@ -292,5 +325,4 @@
   $(document).ready(function () {
     startupClient();
   });
-
 });
