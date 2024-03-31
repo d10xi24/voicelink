@@ -4,7 +4,7 @@ Voicelink is a lightweight web application built with Node.js and Twilio for mak
 
   <div style="margin-bottom: 20px;">
   <p align="center">
-    <img src="/screenshots/202439.png" alt="Homepage Screenshot" height="250" width="450" />
+    <img src="/screenshots/202439.png" alt="Homepage Screenshot" height="300" width="550" />
     </p>
   </div>
 

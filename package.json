@@ -1,7 +1,7 @@
 {
   "name": "voicelink",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Voicelink - An application for integrating voice communication using Twilio Voice JavaScript SDK and MongoDB.",
   "main": "app.cjs",
