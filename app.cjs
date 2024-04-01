@@ -114,7 +114,7 @@ if (process.env.NODE_ENV !== "prod") {
 const server = http.createServer(app);
 
 // Define the port number to listen on, defaulting to 1337
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 10000;
 
 // Start the server
 server.listen(port, () => {

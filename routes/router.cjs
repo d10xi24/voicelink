@@ -1,5 +1,5 @@
 const Router = require("express").Router;
-const { tokenGenerator, voiceResponse } = require("./token.cjs");
+const { tokenGenerator, voiceResponse } = require("./_handler.cjs");
 
 const router = new Router();
 

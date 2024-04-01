@@ -3,6 +3,7 @@ const AccessToken = require("twilio").jwt.AccessToken;
 const VoiceGrant = AccessToken.VoiceGrant;
 const nameGenerator = require("../util.cjs");
 const config = require("../config.cjs");
+
 var identity;
 
 exports.tokenGenerator = function tokenGenerator(identity) {
