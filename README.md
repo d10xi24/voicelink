@@ -81,7 +81,7 @@ Before we begin local development, we need to collect all the config values we n
 
 ### Local development
 
-1. Clone the repository: `git clone https://github.com/d10xi24/voicelink.git`
+1. Clone the repository: `git clone https://github.com/sddion/voicelink.git`
 2. Install dependencies: `npm install`
 
 4. Copy the `twilio.min.js` file from your `node_modules` to your `public` directory. Run the following from
